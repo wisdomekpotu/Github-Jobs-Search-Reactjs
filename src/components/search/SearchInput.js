@@ -4,51 +4,47 @@ import Button from 'react-bootstrap/Button'
 
 
 
-class App extends React.Component {
-  state = {
-    formValues: {}
-  };
+const SearchInput = (props) => {
+  const [state, setState] = React.useState({
+    description: "",
+    location: ""
+  })
 
-  handleChange = e => {
-    e.preventDefault();
-    let formValues = this.state.formValues;
-    let name = e.target.name;
-    let value = e.target.value;
-
-
-    formValues[name] = value;
-
-    this.setState({ formValues })
-    console.log(formValues);
+  const handleChange = e => {
+    const value = e.target.value;
+    setState({
+      ...state,
+      [e.target.name]: value
+    });
+    console.log(value);
   }
 
-  handleSubmit = e => {
+  const handleSubmit = e => {
     e.preventDefault();
-    this.props.searchJobs(this.state.formValues)//sending this props to the App.js
-    this.setState({ formValues: {} });
+    props.searchJobs(state)//sending this props to the App.js
+    setState('');
     //this last part is to set the input filed value to nothing
   }
 
-  render() {
-    return (
-      <div>
-        <Form onSubmit={this.handleSubmit}>
-          <Form.Group >
-            <Form.Label>Search By Keyword</Form.Label>
-            <Form.Control type="text" name="description" placeholder="Enter Your title, keyword..." value={this.state.formValues["description"]} onChange={this.handleChange} />
-          </Form.Group>
-          <Form.Group >
-            <Form.Label>Search By Location</Form.Label>
-            <Form.Control type="text" name="location" placeholder="enter your location" value={this.state.formValues["location"]} onChange={this.handleChange} />
-          </Form.Group>
 
-          <Button variant="primary" type="submit">
-            Search Here
+  return (
+    <div>
+      <Form onSubmit={handleSubmit}>
+        <Form.Group >
+          <Form.Label>Search By Keyword</Form.Label>
+          <Form.Control type="text" name="description" placeholder="Enter Your title, keyword..." value={state.description} onChange={handleChange} />
+        </Form.Group>
+        <Form.Group >
+          <Form.Label>Search By Location</Form.Label>
+          <Form.Control type="text" name="location" placeholder="enter your location" value={state.location} onChange={handleChange} />
+        </Form.Group>
+
+        <Button variant="primary" type="submit">
+          Search Here
           </Button>
-        </Form>
-      </div >
-    )
-  }
-}
+      </Form>
+    </div >
+  )
 
-export default App;
+}
+export default SearchInput;
