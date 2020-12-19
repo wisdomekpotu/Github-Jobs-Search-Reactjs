@@ -1,10 +1,13 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import Form from 'react-bootstrap/Form'
 import Button from 'react-bootstrap/Button'
-
+import GithubContext from '../../context/github/githubContext';
 
 
 const SearchInput = (props) => {
+  //initialize github githubContext
+  const githubContext = useContext(GithubContext);
+
   const [state, setState] = React.useState({
     description: "",
     location: ""
@@ -21,7 +24,7 @@ const SearchInput = (props) => {
 
   const handleSubmit = e => {
     e.preventDefault();
-    props.searchJobs(state)//sending this props to the App.js
+    githubContext.searchJobs(state)//sending this props to the App.js
     setState('');
     //this last part is to set the input filed value to nothing
   }

@@ -1,52 +1,41 @@
-import React, { useState, useEffect } from 'react'
-import axios from 'axios'
+import React from 'react'
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Topnav from './components/layout/Topnav'
 import SearchInput from './components/search/SearchInput'
 import Jobs from './components/jobs/Jobs'
 import './App.css';
 
-const App = (searchJobs) => {
+import GithubState from './context/github/GithubState'
+
+const App = () => {
   //setting the state using useState
-  const [jobs, setJobs] = useState([]);
-  const [loading, setLoading] = useState(false)
 
-
-  //using useEffect to replace componentdidmount
-  useEffect(() => {
-    setLoading(true)
-    async function fetchMyAPI() {
-      const res = await axios.get(`https://cors-anywhere.herokuapp.com/https://jobs.github.com/positions.json`)
-      setJobs(res.data)
-      setLoading(false)
-      console.log(res.data)
-    }
-    fetchMyAPI()
-  }, [])
-  //to mimick the componentdidmount
-
-
-  searchJobs = async (state) => {
-    setLoading(true)
-    const res = await axios.get(`https://cors-anywhere.herokuapp.com/https://jobs.github.com/positions.json?description=${state.description}&location=${state.location}`)
-    setJobs(res.data)
-    setLoading(false)
-    console.log(res.data)
-  }
-
-
+  // //using useEffect to replace componentdidmount
+  // useEffect(() => {
+  //   setLoading(true)
+  //   async function fetchMyAPI() {
+  //     const res = await axios.get(`https://cors-anywhere.herokuapp.com/https://jobs.github.com/positions.json`)
+  //     setJobs(res.data)
+  //     setLoading(false)
+  //     console.log(res.data)
+  //   }
+  //   fetchMyAPI()
+  // }, [])
+  // //to mimick the componentdidmount
 
   return (
-    <div className="App">
-      <Topnav />
-      <br></br>
-      <div className="container">
-        <SearchInput searchJobs={searchJobs} />
+    <GithubState>
+      <div className="App">
+        <Topnav />
         <br></br>
-        <hr></hr>
-        <Jobs loading={loading} jobs={jobs} />
-      </div>
-    </div >
+        <div className="container">
+          <SearchInput />
+          <br></br>
+          <hr></hr>
+          <Jobs />
+        </div>
+      </div >
+    </GithubState>
   )
 
 }

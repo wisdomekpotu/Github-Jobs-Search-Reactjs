@@ -1,13 +1,15 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import JobsCard from './JobsCard'
-import PropTypes from 'prop-types'
+import GithubContext from '../../context/github/githubContext';
 
 
+function Jobs() {
+  //initialize github githubContext
+  const githubContext = useContext(GithubContext);
 
-function Jobs(props) {
   return (
     <div className='flex-container'>
-      {props.jobs.map(job => (
+      {githubContext.jobs.map(job => (
         <JobsCard key={job.id} job={job} />
       ))}
     </div>
@@ -16,9 +18,6 @@ function Jobs(props) {
 
 
 
-//declaring prop types for props used
-Jobs.propTypes = {
-  jobs: PropTypes.array.isRequired,
-}
+
 
 export default Jobs
